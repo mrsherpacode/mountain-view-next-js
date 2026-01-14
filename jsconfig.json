@@ -1,0 +1,12 @@
+// This is a JavaScript/Next.js path configuration file that sets up import aliases for your project.
+// "@/*": ["./*"] — This creates an alias where @/ refers to the root of your project
+// Instead of writing: import Button from '../../../components/Button'
+// You can write: import Button from '@/app/_components/components/Button' Makes imports cleaner and easier to read
+
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}

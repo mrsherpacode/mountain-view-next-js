@@ -1,7 +1,6 @@
 // Here, i'm using @/ — Alias, that's(defined in jsconfig.json) "@/app/" means root folder.
 // This makes import cleaner and easier.
-import Logo from "@/app/_components/components/Logo";
-import Navigation from "@/app/_components/navigation";
+import Header from "@/app/_components/Header";
 // importing google font
 import { Josefin_Sans } from "next/font/google";
 const josefin = Josefin_Sans({
@@ -10,7 +9,7 @@ const josefin = Josefin_Sans({
 });
 // importing global css
 import "@/app/_styles/globals.css";
-//  The export const metadata config tells Next.js what to render in <head> (titles, meta tags, icons) for App Router pages.
+// The export const metadata config tells Next.js what to render in <head> (titles, meta tags, icons) for App Router pages.
 // for favicon just create a icon.png or any other images file in app folder.
 export const metadata = {
   title: {
@@ -26,16 +25,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       {/* the primary is custom color from  tailwind.config.js file and (josefin.className) is a Google font  */}
-      s
       <body
         className={`${josefin.className} bg-primary-950 text-primary-100 min-h-screen`}
       >
-        <header>
-          <Logo />
-          <Navigation />
-        </header>
+        <Header />
         <main> {children}</main>
-        <footer>Copyright@ 2026</footer>
       </body>
     </html>
   );

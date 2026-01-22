@@ -1,7 +1,7 @@
 // In Next.js, (App Router) app is a root folder and folders inside app define route segments and page.js exports the react component for that route.for example,inside app folder,there's cabins folder inside cabins folder there's a page.js file that's basically react component.
 
-import { getCabins } from "../_lib/data-service";
-import CabinCard from "../_starter/components/CabinCard";
+import { getCabins } from "@/app/_lib/data-service";
+import CabinCard from "@/app/_components/CabinCard";
 
 // This Metadata overrides the root Metadata.
 export const metadata = {
@@ -9,14 +9,13 @@ export const metadata = {
 };
 
 export default async function Page() {
-  // CHANGE
+  // getting all cabins
   const cabins = await getCabins();
-  console.log(cabins);
 
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
-        Our Luxury Cabins
+        Our Luxury Cabinss
       </h1>
       <p className="text-primary-200 text-lg mb-10">
         Cozy yet luxurious cabins, located right in the heart of the Italian

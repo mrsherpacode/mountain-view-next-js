@@ -1,17 +1,15 @@
 // In Next.js, (App Router) app is a root folder and folders inside app define route segments and page.js exports the react component for that route.for example,inside app folder,there's cabins folder inside cabins folder there's a page.js file that's basically react component.
 
-import { getCabins } from "@/app/_lib/data-service";
-import CabinCard from "@/app/_components/CabinCard";
+import { Suspense } from "react";
+import CabinList from "../_components/CabinList";
+import Spinner from "../_components/Spinner";
 
 // This Metadata overrides the root Metadata.
 export const metadata = {
   title: "Cabins",
 };
 
-export default async function Page() {
-  // getting all cabins
-  const cabins = await getCabins();
-
+export default function Page() {
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -25,14 +23,9 @@ export default async function Page() {
         away from home. The perfect spot for a peaceful, calm vacation. Welcome
         to paradise.
       </p>
+      {/*Here, Suspense a react built in component shows a fallback Spinner while CabinList is fetching data from supabase. only here suspense because the above content doesn't fetch any data*/}
 
-      {cabins.length > 0 && (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-          {cabins.map((cabin) => (
-            <CabinCard cabin={cabin} key={cabin.id} />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<Spinner />}>{<CabinList />}</Suspense>
     </div>
   );
 }

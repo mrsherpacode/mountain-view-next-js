@@ -2,7 +2,7 @@
 import { supabase } from "./supabase";
 
 /////////////
-// GET
+// GET individual cabin details.
 
 export async function getCabin(id) {
   const { data, error } = await supabase

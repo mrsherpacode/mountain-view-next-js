@@ -1,5 +1,5 @@
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
-import { getCabin } from "@/app/_lib/data-service";
+import { getCabin, getCabins } from "@/app/_lib/data-service";
 import Image from "next/image";
 import { Caprasimo } from "next/font/google";
 
@@ -9,6 +9,17 @@ export async function generateMetadata({ params }) {
   return {
     title: `Cabin ${name}`,
   };
+}
+// This code implements static generation for dynamic routes in Next.js:
+//This enables fast, SEO-friendly page loads instead of rendering on-demand.
+export async function generateStaticParams() {
+  // get all cabins
+  const cabins = await getCabins();
+  // gets individual cabin's id
+  const ids = cabins.map((cabin) => ({
+    cabinId: String(cabin.id),
+  }));
+  return ids;
 }
 // Dynamic route: Renders the cabin detail page for [cabinId] based on the URL segment in app/cabins/[cabinId]/page.js.// Server component: Page is async and fetches data server-side on each request.
 // Dynamic segments: params contains URL path segments for the current route.

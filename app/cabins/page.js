@@ -3,6 +3,11 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+// ISR: After 1 hour, next request triggers background revalidation from Supabase
+// User gets cached data immediately; fresh data appears in subsequent requests
+//Semi-static with ISR = cached & served fast, revalidates periodically
+// This apply for entire page and we can also apply for individual component with(import { unstable_cache } from "next/cache");
+export const revalidate = 3600; // 60 * 60
 
 // This Metadata overrides the root Metadata.
 export const metadata = {

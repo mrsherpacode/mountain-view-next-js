@@ -4,6 +4,7 @@ import logo from "@/public/logo.png";
 import Link from "next/link";
 
 function Logo() {
+  console.log("logo");
   return (
     <Link href="/" className="flex items-center gap-4 z-10">
       <Image
@@ -13,6 +14,7 @@ function Logo() {
         quality={100}
         alt="The mountain view"
       />
+      Mountain-View
     </Link>
   );
 }

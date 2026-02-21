@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+import Filter from "../_components/Filter";
 // ISR: After 1 hour, next request triggers background revalidation from Supabase
 // User gets cached data immediately; fresh data appears in subsequent requests
 //Semi-static with ISR = cached & served fast, revalidates periodically
@@ -14,7 +15,9 @@ export const metadata = {
   title: "Cabins",
 };
 
-export default function Page() {
+export default function Page({ searchParams }) {
+  console.log(searchParams);
+  const filter = searchParams?.capacity ?? "all";
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -29,8 +32,13 @@ export default function Page() {
         to paradise.
       </p>
       {/*Here, Suspense a react built in component shows a fallback Spinner while CabinList is fetching data from supabase. only here suspense because the above content doesn't fetch any data*/}
+      <div className=" flex justify-end mb-5">
+        <Filter />
+      </div>
 
-      <Suspense fallback={<Spinner />}>{<CabinList />}</Suspense>
+      <Suspense fallback={<Spinner />}>
+        {<CabinList filter={filter} />}
+      </Suspense>
     </div>
   );
 }

@@ -12,33 +12,51 @@ function Filter() {
     params.set("capacity", filter);
     router.replace(`${pathName}?${params.toString()}`, { scroll: false });
   }
+  const activeFilter = searchParams.get("capacity") ?? "all";
   return (
     <div className="flex  border border-primary-800">
-      <button
-        className="px-5 py-2 hover:bg-primary-700"
-        onClick={() => handleFilter("all")}
+      <Button
+        filter="all"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
         All Cabins
-      </button>
-      <button
-        className="px-5 py-2 hover:bg-primary-700"
-        onClick={() => handleFilter("small")}
+      </Button>
+      <Button
+        filter="small"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
-        1 &mdash;3 Cabins
-      </button>
-      <button
-        className="px-5 py-2 hover:bg-primary-700 "
-        onClick={() => handleFilter("medium")}
+        1 &mdash;3 guests
+      </Button>
+      <Button
+        filter="medium"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
-        4 &mdash;7 Cabins
-      </button>
-      <button
-        className="px-5 py-2 hover:bg-primary-700 "
-        onClick={() => handleFilter("large")}
+        4 &mdash; 7 guests
+      </Button>
+      <Button
+        filter="large"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
-        8 &mdash;12 Cabins
-      </button>
+        8 &mdash; 12 guests
+      </Button>
     </div>
+  );
+}
+// Re-useable Button component
+function Button({ filter, activeFilter, children, handleFilter }) {
+  return (
+    <button
+      className={`px-5 py-2 hover:bg-primary-700 ${
+        filter === activeFilter ? "bg-primary-700 text-primary-50" : ""
+      }`}
+      onClick={() => handleFilter(filter)}
+    >
+      {children}
+    </button>
   );
 }
 

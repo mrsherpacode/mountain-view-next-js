@@ -1,4 +1,4 @@
-// import { eachDayOfInterval } from "date-fns";
+import { eachDayOfInterval } from "date-fns";
 import { notFound } from "next/navigation";
 import { supabase } from "./supabase";
 
@@ -96,7 +96,7 @@ export async function getBookings(guestId) {
 
   return data;
 }
-
+// gets all the booked cabins
 export async function getBookedDatesByCabinId(cabinId) {
   let today = new Date();
   today.setUTCHours(0, 0, 0, 0);
@@ -108,6 +108,7 @@ export async function getBookedDatesByCabinId(cabinId) {
     .select("*")
     .eq("cabinId", cabinId)
     .or(`startDate.gte.${today},status.eq.checked-in`);
+  // await new Promise((res) => setTimeout(res, 5000));
 
   if (error) {
     console.error(error);

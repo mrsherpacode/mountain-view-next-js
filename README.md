@@ -1,5 +1,23 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Environment Variables
+
+Create a `.env.local` file in the project root and add your Supabase credentials:
+
+```bash
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_KEY=YOUR_SUPABASE_ANON_KEY
+```
+
+You can also use:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+NEXT_PUBLIC_SUPABASE_KEY=YOUR_SUPABASE_ANON_KEY
+```
+
+After adding variables, restart the development server.
+
 ## Getting Started
 
 First, run the development server:

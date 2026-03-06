@@ -9,6 +9,7 @@ const josefin = Josefin_Sans({
 });
 // importing global css
 import "@/app/_styles/globals.css";
+import { ReservationProvider } from "./_components/ReservationContext";
 // The export const metadata config tells Next.js what to render in <head> (titles, meta tags, icons) for App Router pages.
 // for favicon just create a icon.png or any other images file in app folder.
 export const metadata = {
@@ -30,7 +31,9 @@ export default function RootLayout({ children }) {
       >
         <Header />
         <div className="flex-1 px-8 py-12 grid ">
-          <main className=" max-w-7xl mx-auto w-full"> {children}</main>
+          <main className=" max-w-7xl mx-auto w-full">
+            <ReservationProvider> {children}</ReservationProvider>
+          </main>
         </div>
       </body>
     </html>

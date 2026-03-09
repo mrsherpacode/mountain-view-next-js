@@ -32,6 +32,8 @@ export default function RootLayout({ children }) {
         <Header />
         <div className="flex-1 px-8 py-12 grid ">
           <main className=" max-w-7xl mx-auto w-full">
+            {/* ReservationProvider is a Context Provider that creates shared state (often called “global state”) for all components inside it. */}
+
             <ReservationProvider> {children}</ReservationProvider>
           </main>
         </div>

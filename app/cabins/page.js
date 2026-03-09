@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
 import Filter from "../_components/Filter";
+import ReservationReminder from "../_components/ReservationReminder";
 // ISR: After 1 hour, next request triggers background revalidation from Supabase
 // User gets cached data immediately; fresh data appears in subsequent requests
 //Semi-static with ISR = cached & served fast, revalidates periodically
@@ -38,6 +39,7 @@ export default async function Page({ searchParams }) {
 
       <Suspense fallback={<Spinner key={filter} />}>
         {<CabinList filter={filter} />}
+        {<ReservationReminder />}
       </Suspense>
     </div>
   );

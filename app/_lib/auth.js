@@ -11,6 +11,9 @@ const authConfig = {
     }),
   ],
 };
+// auth → function you call in server code to read session
+// handlers (GET/POST) → functions Next.js uses to run the auth API routes
+
 export const {
   auth,
   handlers: { GET, POST },

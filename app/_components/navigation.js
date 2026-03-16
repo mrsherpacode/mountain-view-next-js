@@ -4,7 +4,7 @@ import { auth } from "@/app/_lib/auth";
 export default async function Navigation() {
   // session is the logged-in user session returned by Auth.js.
   const session = await auth();
-  console.log(session);
+  // console.log(session);
   return (
     <nav className="z-10 text-xl">
       <ul className="flex gap-16 items-center">

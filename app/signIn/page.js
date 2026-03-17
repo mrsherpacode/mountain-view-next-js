@@ -1,5 +1,8 @@
 import { signInAction } from "../_lib/actions";
-
+export const metadata = {
+  title: "singin",
+};
+//Because this component is a Server Component by default, and server components cannot attach browser event handlers like onClick. so signInAction is imported from actions.js file
 function SignInButton() {
   return (
     <form action={signInAction}>

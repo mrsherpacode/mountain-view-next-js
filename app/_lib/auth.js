@@ -18,11 +18,17 @@ const authConfig = {
       return !!auth?.user;
     },
   },
+  pages: {
+    signIn: "/singIn",
+  },
 };
+
 // auth → function you call in server code to read session
 // handlers (GET/POST) → functions Next.js uses to run the auth API routes
 
 export const {
   auth,
+  signIn,
+  signOut,
   handlers: { GET, POST },
 } = NextAuth(authConfig);

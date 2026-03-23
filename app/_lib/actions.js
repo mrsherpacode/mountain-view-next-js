@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 // A Server Action bridges client and server by letting a client-side interaction like form submit call server-side  code directly, without you manually building a separate API endpoint.
 // this file defines one server-side entry point that starts Google login and then sends the user to the account page.
 import { signIn, signOut } from "./auth";
@@ -34,7 +35,8 @@ export async function updateGuest(formData) {
   if (error) {
     throw new Error("Guest could not be updated");
   }
-  return data;
+  //This clear cached data for account/profile page and fetch the updated or fresh data on demand
+  revalidatePath("/account/profile");
 }
 // for sign out
 export async function signOutAction() {

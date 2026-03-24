@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "./auth";
 import { auth } from "./auth";
 import { supabase } from "./supabase";
+import { getBookings } from "./data-service";
 // for siginin in
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -37,6 +38,28 @@ export async function updateGuest(formData) {
   }
   //This clear cached data for account/profile page and fetch the updated or fresh data on demand
   revalidatePath("/account/profile");
+}
+// For deleting the reservation
+export async function deleteReservation({ bookingId }) {
+  //Authenticate user
+  const session = await auth();
+  if (!session) throw new Error("you must be logged in before updating");
+  //Authorize ownership, checks whether the incoming bookingId belongs to that user.
+  const bookings = await getBookings(session.user.guestId);
+  const bookingIds = bookings.map((booking) => booking.id);
+  // throws error if bookingids do not include bookingId.
+  if (!bookingIds.includes(bookingId))
+    throw new Error("You are not allowed to delete this reservation");
+  // Delete in Supabase If authorized,
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("id", bookingId);
+  if (error) {
+    throw new Error("Booking could not be deleted");
+  }
+  //revalidatePath("/account/reservations") so the reservations page updates and removes the delated page instantly after deletion.
+  revalidatePath("/account/reservations");
 }
 // for sign out
 export async function signOutAction() {

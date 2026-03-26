@@ -7,6 +7,7 @@ import { signIn, signOut } from "./auth";
 import { auth } from "./auth";
 import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 // for siginin in
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -39,7 +40,7 @@ export async function updateGuest(formData) {
   //This clear cached data for account/profile page and fetch the updated or fresh data on demand
   revalidatePath("/account/profile");
 }
-// For deleting the reservation
+// For deleting the reservation //
 export async function deleteReservation({ bookingId }) {
   //Authenticate user
   const session = await auth();
@@ -61,7 +62,43 @@ export async function deleteReservation({ bookingId }) {
   //revalidatePath("/account/reservations") so the reservations page updates and removes the delated page instantly after deletion.
   revalidatePath("/account/reservations");
 }
-// for sign out
+
+// For editing reservation //
+export async function updateBooking(formData) {
+  const bookingId = Number(formData.get("bookingId"));
+  //Authenticate user
+  const session = await auth();
+  if (!session) throw new Error("you must be logged in before updating");
+  //Authorize ownership, checks whether the incoming bookingId belongs to that user.
+  const bookings = await getBookings(session.user.guestId);
+  const bookingIds = bookings.map((booking) => booking.id);
+  // throws error if bookingids do not include bookingId.
+  if (!bookingIds.includes(bookingId))
+    throw new Error("You are not allowed to update this reservation");
+  // build updateData
+  const updateData = {
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations"),
+  };
+  // Mutation
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(updateData)
+    .eq("id", bookingId)
+    .select()
+    .single();
+  // error handling
+  if (error) {
+    throw new Error("Booking could not be updated");
+  }
+  // revalidations
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
+  revalidatePath("/account/reservations");
+  // redirect to reservations page
+  redirect("/account/reservations");
+}
+
+// for sign out //
 export async function signOutAction() {
   await signOut({ redirectTo: "/" });
 }

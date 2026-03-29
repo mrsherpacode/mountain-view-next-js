@@ -4,10 +4,13 @@ import DeleteReservation from "./DeleteReservation";
 import Link from "next/link";
 import Image from "next/image";
 //formatDistanceFromNow is a small helper function that turns a date string into human-friendly relative time.
-export const formatDistanceFromNow = (dateStr) =>
+export const formatDistanceFromNow = (dateStr) => {
+  if (!dateStr) return;
+
   formatDistance(parseISO(dateStr), new Date(), {
     addSuffix: true,
   }).replace("about ", "");
+};
 
 function ReservationCard({ booking, onDelete }) {
   const {

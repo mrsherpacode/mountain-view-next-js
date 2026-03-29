@@ -40,6 +40,41 @@ export async function updateGuest(formData) {
   //This clear cached data for account/profile page and fetch the updated or fresh data on demand
   revalidatePath("/account/profile");
 }
+
+// Create new Reservation //
+export async function createReservation(reservationData, formData) {
+  //Authenticate user
+  const session = await auth();
+  if (!session) throw new Error("you must be logged in before creating");
+  // new reservation is  data package being inserted as a new row in supabase in the bookings table.
+  const newReservation = {
+    ...reservationData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+    extraPrice: 0,
+    totalPrice: reservationData.cabinPrice,
+    status: "unconfirmed",
+    hasBreakfast: false,
+    isPaid: false,
+  };
+  // inserts newReservation in the booking table
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert([newReservation])
+    // So that the newly created object gets returned!
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error("reservation could not be created");
+  }
+  // to refresh cached data for this route
+  revalidatePath(`/cabins/${reservationData.cabinId} `);
+  //redirect to thankyou page after successful reservation
+  redirect("/cabins/thankyou");
+}
+
 // For deleting the reservation //
 export async function deleteReservation({ bookingId }) {
   //Authenticate user
@@ -78,7 +113,7 @@ export async function updateBooking(formData) {
   // build updateData
   const updateData = {
     numGuests: Number(formData.get("numGuests")),
-    observations: formData.get("observations"),
+    observations: formData.get("observations").slice(0, 1000),
   };
   // Mutation
   const { data, error } = await supabase
@@ -94,8 +129,6 @@ export async function updateBooking(formData) {
   // revalidations
   revalidatePath(`/account/reservations/edit/${bookingId}`);
   revalidatePath("/account/reservations");
-  // redirect to reservations page
-  redirect("/account/reservations");
 }
 
 // for sign out //

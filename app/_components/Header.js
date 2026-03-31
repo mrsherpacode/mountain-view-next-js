@@ -1,7 +1,7 @@
-// import Navigation from "@/app/_components/Navigation";
-// import Logo from "@/app/Logo";
-import Navigation from "./Navigation"; // Use ./ for same-folder imports
-import Logo from "../Logo"; //
+import Navigation from "@/app/_components/Navigation.js";
+import Logo from "@/app/Logo";
+// import Navigation from "./Navigation"; // Use ./ for same-folder imports
+// import Logo from "../Logo"; //
 
 function Header() {
   return (
